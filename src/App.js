@@ -29,8 +29,8 @@ class BooksApp extends React.Component {
   }
 
   moveBookToDesiredShelf = (book, shelf) => {
-    update(book, shelf);
-    this.getAllBooks();
+    update(book, shelf).then(this.getAllBooks);
+    // this.setState({ bookshelfArray: update(book, shelf) });
   }
 
   render() {
