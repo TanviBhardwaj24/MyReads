@@ -30,7 +30,6 @@ class BooksApp extends React.Component {
 
   moveBookToDesiredShelf = (book, shelf) => {
     update(book, shelf).then(this.getAllBooks);
-    // this.setState({ bookshelfArray: update(book, shelf) });
   }
 
   render() {
@@ -39,7 +38,9 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={(props) => (
           <BooksMainPage {...props} books={this.state.booksArray} bookshelf={this.bookshelfArray} moveBookToDesiredShelf={this.moveBookToDesiredShelf} />
         )} />
-        <Route exact path="/Search" component={SearchPage} />
+        <Route exact path="/Search" render={(props) => (
+          <SearchPage {...props} booksFromMainPage={this.state.booksArray} bookshelf={this.bookshelfArray} moveBookToDesiredShelf={this.moveBookToDesiredShelf} />
+        )} />
       </div>
     );
   }

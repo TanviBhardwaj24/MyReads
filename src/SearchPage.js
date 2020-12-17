@@ -3,6 +3,7 @@ import { search } from './BooksAPI';
 import Book from './Book';
 
 class SearchPage extends Component {
+
   state = {
     userQuery: '',
     booksFromUserQuery: [],
@@ -13,9 +14,13 @@ class SearchPage extends Component {
       console.log('the user query is ', userQuery)
       search(userQuery).then((resultingBooks) => {
         if (resultingBooks.error) {
-          this.setState({ booksFromUserQuery: [] });
+          if (this.state.userQuery === userQuery) {
+            this.setState({ booksFromUserQuery: [] });
+          }
         } else {
-          this.setState({ booksFromUserQuery: resultingBooks });
+          if (this.state.userQuery === userQuery) {
+            this.setState({ booksFromUserQuery: resultingBooks });
+          }
         }
       })
     } else {
@@ -24,11 +29,16 @@ class SearchPage extends Component {
   }
 
   updateUserQuery = (event) => {
-    this.setState({ userQuery: event.target.value });
-    this.getBooksFromUserQuery(this.state.userQuery);
+    // this.setState({ userQuery: event.target.value });
+    // this.getBooksFromUserQuery(event.target.value);
+
+    this.setState({ userQuery: event.target.value }, () =>
+      this.getBooksFromUserQuery(this.state.userQuery)
+    );
   }
 
   render() {
+    const { booksFromMainPage, moveBookToDesiredShelf } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -43,9 +53,24 @@ class SearchPage extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.booksFromUserQuery.map(resultingBook => (
-              <Book key={resultingBook.id} book={resultingBook} />
-            ))}
+            {this.state.booksFromUserQuery.map(resultingBook => {
+              let shelfVal = 'none';
+
+              booksFromMainPage.map(book => {
+                let booksArrayShelfVal = book.shelf;
+                if (book.id === resultingBook.id) {
+                  // console.log('the book has been selected')
+                  console.log('value is', booksArrayShelfVal)
+                  shelfVal = booksArrayShelfVal;
+                } else {
+                  shelfVal = 'none';
+                }
+              });
+              return (
+                <Book key={resultingBook.id} book={resultingBook} shelf={shelfVal}
+                  moveBookToDesiredShelf={moveBookToDesiredShelf} />
+              );
+            })}
           </ol>
         </div>
       </div>
