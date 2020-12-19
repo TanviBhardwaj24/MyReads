@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BookShelf from './BookShelf';
+import { Link } from 'react-router-dom';
 
 class BooksMainPage extends Component {
   render() {
@@ -14,8 +15,13 @@ class BooksMainPage extends Component {
             {bookshelf.map(bookshelf => (
               < BookShelf key={bookshelf.shelfVal} name={bookshelf.shelfName} bookshelf={bookshelf} books={books} moveBookToDesiredShelf={moveBookToDesiredShelf} />
             ))}
-
           </div>
+        </div>
+        <div className="open-search">
+          <Link to="/Search">
+            <button
+              onClick={() => this.setState({ showSearchPage: true })}>
+              Add a book</button></Link>
         </div>
       </div>
     )

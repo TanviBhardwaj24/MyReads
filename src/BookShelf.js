@@ -4,9 +4,8 @@ import Book from './Book';
 class BookShelf extends React.Component {
   render() {
     const { books, name, bookshelf, moveBookToDesiredShelf } = this.props;
-
     const booksOnGivenShelf = books.filter(book => book.shelf === bookshelf.shelfVal)
-    console.log('books on the shelf are ', booksOnGivenShelf)
+
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{name}</h2>

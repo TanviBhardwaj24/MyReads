@@ -1,21 +1,14 @@
 import React from 'react';
-// import * as BooksAPI from './BooksAPI'
-
 import './App.css';
-import { Route } from 'react-router-dom';
 import BooksMainPage from './BooksMainPage';
-import SearchPage from './SearchPage';
 import { getAll, update } from './BooksAPI';
+import { Route } from 'react-router-dom';
+import SearchPage from './SearchPage';
 
 class BooksApp extends React.Component {
   state = {
-    booksArray: []
-  }
-
-  getAllBooks = () => {
-    getAll().then((books) => {
-      this.setState({ booksArray: books })
-    })
+    booksArray: [],
+    showSearchPage: false
   }
 
   bookshelfArray = [
@@ -24,12 +17,18 @@ class BooksApp extends React.Component {
     { shelfVal: 'read', shelfName: 'Read' },
   ];
 
-  componentDidMount() {
-    this.getAllBooks();
+  getAllBooks = () => {
+    getAll().then((books) => {
+      this.setState({ booksArray: books })
+    })
   }
 
   moveBookToDesiredShelf = (book, shelf) => {
     update(book, shelf).then(this.getAllBooks);
+  }
+
+  componentDidMount() {
+    this.getAllBooks();
   }
 
   render() {
@@ -38,13 +37,13 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={(props) => (
           <BooksMainPage {...props} books={this.state.booksArray} bookshelf={this.bookshelfArray} moveBookToDesiredShelf={this.moveBookToDesiredShelf} />
         )} />
+
         <Route exact path="/Search" render={(props) => (
-          <SearchPage {...props} booksFromMainPage={this.state.booksArray} bookshelf={this.bookshelfArray} moveBookToDesiredShelf={this.moveBookToDesiredShelf} />
+          <SearchPage {...props} booksFromMainPage={this.state.booksArray} bookshelf={this.bookshelfArray} moveBookToDesiredShelf={this.moveBookToDesiredShelf} showSearchPage={this.state.showSearchPage} />
         )} />
       </div>
     );
   }
 }
-
 
 export default BooksApp
