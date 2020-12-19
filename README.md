@@ -9,7 +9,7 @@ It also gives the user an opportunity to search for a particular book by the tit
 Follow these steps to run the project:
 
 * Clone the project using `https://github.com/TanviBhardwaj24/MyReads.git`
-* Once it is cloned, `cd reactnd-project-myreads-starter`
+* Once it is cloned, `cd MyReads`
 * Use `npm install` to install the dependencies
-* start the development server with `npm start`
+* Start the development server with `npm start`
 
